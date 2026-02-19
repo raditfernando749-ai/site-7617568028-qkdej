@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>بوابة المخدوم | كنيسة ابو سيفين</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #00e5ff;
+            --secondary: #ffd700;
+            --bg: #050505;
+            --card-bg: #121212;
+            --text: #ffffff;
+            --danger: #ff4757;
+            --success: #00ff88;
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Cairo',sans-serif; -webkit-tap-highlight-color:transparent; }
+
+        body {
+            background: var(--bg);
+            background-image: radial-gradient(circle at 50% 10%, #1a1a1a 0%, #000 70%);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            padding-bottom: 80px;
+        }
+
+        header {
+            text-align: center;
+            padding: 25px 20px;
+            position: relative;
+        }
+        header h1 {
+            color: var(--primary);
+            font-size: 1.6rem;
+            text-shadow: 0 0 20px rgba(0, 229, 255, 0.5);
+            margin-bottom: 5px;
+            font-weight: 900;
+        }
+        header p { color: #888; font-size: 0.9rem; letter-spacing: 1px; }
+
+        .container {
+            padding: 20px;
+            flex: 1;
+            max-width: 500px;
+            margin: 0 auto;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .card {
+            background: rgba(18, 18, 18, 0.8);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 25px;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            transform: translateZ(0);
+        }
+        
+        .neon-line {
+            position: absolute; top:0; left:0; width:100%; height:2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            box-shadow: 0 0 15px var(--primary);
+        }
+
+        .form-group { margin-bottom: 20px; text-align: right; }
+        .form-label { display: block; color: #aaa; margin-bottom: 8px; font-size: 0.9rem; }
+        
+        input {
+            width: 100%; padding: 16px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px;
+            color: #fff; font-size: 1.1rem; text-align: center;
+            transition: 0.3s;
+        }
+        input:focus {
+            border-color: var(--primary);
+            background: rgba(0, 229, 255, 0.05);
+            box-shadow: 0 0 15px rgba(0,229,255,0.1);
+            outline: none;
+        }
+
+        .btn {
+            width: 100%; padding: 16px; border-radius: 15px; border: none;
+            font-weight: 800; font-size: 1.1rem; cursor: pointer;
+            transition: 0.3s; margin-top: 10px;
+            position: relative; overflow: hidden;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), #00b8cc);
+            color: #000;
+            box-shadow: 0 5px 20px rgba(0,229,255,0.3);
+        }
+        .btn-primary:active { transform: scale(0.98); }
+        
+        .btn-outline {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+            font-size: 0.9rem;
+        }
+
+        /* تنسيق التحذير الجديد */
+        .strict-warning {
+            background: rgba(255, 71, 87, 0.1);
+            border: 1px solid rgba(255, 71, 87, 0.4);
+            color: #ff6b81;
+            padding: 15px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            text-align: right;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        .strict-warning strong {
+            color: var(--danger);
+            display: block;
+            margin-bottom: 5px;
+            font-size: 1rem;
+        }
+
+        /* الداشبورد */
+        .points-circle {
+            width: 130px; height: 130px;
+            border-radius: 50%;
+            border: 2px dashed rgba(255, 215, 0, 0.3);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            margin: 0 auto 20px;
+            position: relative;
+        }
+        .points-circle::before {
+            content:''; position: absolute; inset: 5px; border-radius: 50%;
+            border: 3px solid var(--secondary);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+            animation: spin 10s linear infinite;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        .points-val { font-size: 3rem; font-weight: 900; color: var(--secondary); line-height: 1; text-shadow: 0 0 15px rgba(255,215,0,0.4); position: relative; z-index: 2; }
+        .points-lbl { font-size: 0.85rem; color: #fff; opacity: 0.8; position: relative; z-index: 2; }
+
+        .info-item {
+            display: flex; justify-content: space-between; padding: 14px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .info-item:last-child { border-bottom: none; }
+        .info-label { color: #888; display: flex; align-items: center; gap: 8px; font-size: 0.9rem; }
+        .info-value { color: #fff; font-weight: 700; }
+
+        .history-list { max-height: 300px; overflow-y: auto; margin-top: 10px; padding-right: 5px; }
+        .history-list::-webkit-scrollbar { width: 4px; }
+        .history-list::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+
+        .history-item {
+            background: linear-gradient(90deg, rgba(255,255,255,0.03), transparent);
+            padding: 12px 15px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            display: flex; justify-content: space-between; align-items: center;
+            border-right: 3px solid var(--success);
+            transition: 0.2s;
+        }
+
+        .golden-glass-box {
+            margin: 30px auto 10px;
+            padding: 20px;
+            max-width: 90%;
+            border-radius: 20px;
+            background: rgba(255, 215, 0, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.1), inset 0 0 20px rgba(255, 215, 0, 0.05);
+            text-align: center;
+            position: relative;
+            animation: floatBox 4s ease-in-out infinite;
+        }
+        @keyframes floatBox {
+            0%, 100% { transform: translateY(0); box-shadow: 0 0 20px rgba(255, 215, 0, 0.1); }
+            50% { transform: translateY(-8px); box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2); }
+        }
+        .golden-glass-box p { color: #fff; font-size: 0.8rem; opacity: 0.8; margin-bottom: 5px; }
+        .golden-glass-box h3 {
+            background: linear-gradient(to right, #ffd700, #fff, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.1rem;
+            font-weight: 900;
+        }
+        
+        .ticker-wrap {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: #000; border-top: 1px solid var(--primary);
+            height: 40px; overflow: hidden; display: flex; align-items: center;
+            z-index: 100; box-shadow: 0 -5px 20px rgba(0, 229, 255, 0.15);
+        }
+        .ticker { display: inline-block; white-space: nowrap; padding-right: 100%; animation: ticker 20s linear infinite; }
+        .ticker-item { display: inline-block; padding: 0 2rem; font-size: 0.9rem; color: #fff; font-weight: 600; }
+        .ticker-item i { color: var(--secondary); margin-left: 5px; }
+        @keyframes ticker { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(100%, 0, 0); } }
+
+        .hidden { display: none !important; }
+        .fade-in { animation: fadeIn 0.6s ease; }
+        @keyframes fadeIn { from{opacity:0;transform:translateY(15px)} to{opacity:1;transform:translateY(0)} }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1><i class="fas fa-church"></i> كنيسة ابو سيفين </h1>
+        <p>خدمة مدارس الأحد - طنطا</p>
+    </header>
+
+    <div class="container">
+        
+        <div id="loading" style="text-align:center; color:var(--primary); margin-top:50px;">
+            <i class="fas fa-circle-notch fa-spin fa-2x"></i>
+            <p style="margin-top:15px; font-size:0.9rem;">جاري الدخول الآمن...</p>
+        </div>
+
+        <div id="step-phone" class="card fade-in hidden">
+            <div class="neon-line"></div>
+            <h2 style="text-align:center; margin-bottom:20px;">تسجيل دخول جديد</h2>
+            
+            <div class="strict-warning">
+                <i class="fas fa-exclamation-triangle"></i> <strong>تنبيه هام جداً:</strong>
+                يجب إدخال رقم هاتفك الشخصي فقط.
+                <br>
+                سيتم ربط حسابك بهذا الهاتف للأبد، ولن تتمكن من فتح حساب آخر أو استعارة هاتف صديق للدخول.
+                <br>
+                <span style="color:#fff; text-decoration:underline;">كل جهاز = حساب واحد فقط.</span>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">رقم الهاتف المسجل</label>
+                <input type="tel" id="inputPhone" placeholder="01xxxxxxxxx">
+            </div>
+            <button onclick="window.checkPhone()" class="btn btn-primary">
+                متابعة <i class="fas fa-arrow-left" style="margin-right:5px;"></i>
+            </button>
+            
+            <button onclick="window.showLoginDirect()" class="btn btn-outline" style="font-size:0.8rem; border:none; color:#777;">
+                لديك حساب بالفعل؟ اضغط هنا
+            </button>
+        </div>
+
+        <div id="step-confirm" class="card fade-in hidden">
+            <div class="neon-line" style="background:linear-gradient(90deg, transparent, var(--success), transparent); box-shadow:0 0 15px var(--success);"></div>
+            <div style="text-align:center;">
+                <div style="width:80px; height:80px; background:rgba(255,255,255,0.05); border-radius:50%; margin:0 auto 15px; display:flex; align-items:center; justify-content:center;">
+                    <i class="fas fa-user-check" style="font-size:2.5rem; color:var(--success);"></i>
+                </div>
+                <h3 style="color:#aaa; font-size:0.9rem;">أهلاً بك يا</h3>
+                <h2 id="foundName" style="color:#fff; margin:5px 0 20px; font-size:1.4rem;"></h2>
+                
+                <div id="confirmBtns" style="display:flex; gap:10px;">
+                    <button onclick="window.confirmIdentity()" class="btn btn-primary">نعم، هذا أنا</button>
+                    <button onclick="window.resetFlow()" class="btn btn-outline" style="border-color:var(--danger); color:var(--danger);">لست أنا</button>
+                </div>
+
+                <div id="passwordSetup" class="hidden" style="margin-top:20px; border-top:1px solid rgba(255,255,255,0.1); padding-top:20px;">
+                    <p style="color:var(--secondary); font-size:0.9rem; margin-bottom:15px;">
+                        <i class="fas fa-lock"></i> أنشئ كلمة مرور لحماية نقاطك
+                    </p>
+                    <input type="password" id="newPassword" placeholder="كلمة المرور الجديدة">
+                    <button onclick="window.completeRegistration()" class="btn btn-primary" style="background:var(--success); box-shadow:0 5px 20px rgba(46, 213, 115, 0.3); color:#000;">
+                        تأكيد وحفظ الدخول
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="step-login" class="card fade-in hidden">
+            <div class="neon-line"></div>
+            <h3 style="text-align:center; margin-bottom:25px;">الدخول لحسابك</h3>
+            <div class="form-group">
+                <label class="form-label">رقم الهاتف</label>
+                <input type="tel" id="loginPhone">
+            </div>
+            <div class="form-group">
+                <label class="form-label">كلمة المرور</label>
+                <input type="password" id="loginPassword">
+            </div>
+            <button onclick="window.doLogin()" class="btn btn-primary">دخول</button>
+            <button onclick="window.resetFlow()" class="btn btn-outline" style="border:none;">رجوع</button>
+        </div>
+
+        <div id="dashboard" class="fade-in hidden">
+            <div class="card" style="text-align:center; padding-top:30px;">
+                <div class="points-circle">
+                    <span class="points-val" id="dashPoints">0</span>
+                    <span class="points-lbl">نقطة</span>
+                </div>
+                <h2 id="dashName" style="color:var(--primary); font-size:1.4rem;"></h2>
+                <span id="dashSection" style="background:rgba(255,255,255,0.1); padding:5px 15px; border-radius:20px; font-size:0.8rem; color:#ccc; margin-top:5px; display:inline-block;"></span>
+            </div>
+
+            <div class="card">
+                <div class="neon-line"></div>
+                <h3 style="margin-bottom:20px; display:flex; align-items:center; gap:10px; font-size:1.1rem;">
+                    <i class="fas fa-id-card" style="color:var(--primary);"></i> بياناتي
+                </h3>
+                <div class="info-item">
+                    <span class="info-label"><i class="fas fa-phone"></i> الهاتف</span>
+                    <span class="info-value" id="dashPhone"></span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label"><i class="fas fa-map-marker-alt"></i> العنوان</span>
+                    <span class="info-value" id="dashAddress"></span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 style="margin-bottom:15px; display:flex; align-items:center; gap:10px; font-size:1.1rem;">
+                    <i class="fas fa-history" style="color:var(--success);"></i> سجل الحضور
+                </h3>
+                <div class="history-list" id="dashHistory"></div>
+            </div>
+
+            <div class="golden-glass-box">
+                <p>هذا النظام بالكامل تمت برمجته بواسطة</p>
+                <h3>المهندس / فارس هاني</h3>
+            </div>
+            
+            <br><br>
+        </div>
+
+    </div>
+
+    <div class="ticker-wrap hidden" id="newsTicker">
+        <div class="ticker">
+            <div class="ticker-item"><i class="fas fa-calendar-alt"></i> اليوم: <span id="tickerDate"></span></div>
+            <div class="ticker-item"><i class="fas fa-pray"></i> الرب نوري وخلاصي ممن أخاف</div>
+            <div class="ticker-item"><i class="fas fa-check-circle"></i> تم تحديث سجل الحضور بنجاح</div>
+            <div class="ticker-item"><i class="fas fa-star"></i> واظب على الحضور لزيادة نقاطك</div>
+            <div class="ticker-item"><i class="fas fa-calendar-alt"></i> اليوم: <span id="tickerDate2"></span></div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        import { getFirestore, collection, query, where, getDocs, doc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBDiflMuCCQ-b1VvbFhUIPA8ojiB3P7F7U",
+            authDomain: "maharty-wep.firebaseapp.com",
+            projectId: "maharty-wep",
+            storageBucket: "maharty-wep.firebasestorage.app",
+            messagingSenderId: "1033568078173",
+            appId: "1:1033568078173:web:5d86a5046e997b1349c0b4",
+            measurementId: "G-HGBSDTZ720"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        let tempUserDocId = null; 
+        let tempUserData = null;
+
+        window.onload = async () => {
+            const todayStr = new Date().toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            if(document.getElementById('tickerDate')) document.getElementById('tickerDate').innerText = todayStr;
+            if(document.getElementById('tickerDate2')) document.getElementById('tickerDate2').innerText = todayStr;
+
+            const savedUid = localStorage.getItem('makhdoum_uid');
+            
+            if (savedUid) {
+                await loadDashboard(savedUid);
+            } else {
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('step-phone').classList.remove('hidden');
+            }
+        };
+
+        // --- الدالة المعدلة بالكامل لحل مشكلة التعليق ---
+        window.checkPhone = async () => {
+            const phoneInput = document.getElementById('inputPhone');
+            const phone = phoneInput.value.trim();
+            
+            if(!phone) return alert("أدخل رقم الهاتف");
+
+            showLoading(true);
+            try {
+                const q = query(collection(db, "users"), where("phone", "==", phone));
+                const querySnapshot = await getDocs(q);
+
+                if (querySnapshot.empty) {
+                    // إذا الرقم غير موجود
+                    alert("هذا الرقم غير مسجل في الخدمة! تأكد من الرقم وحاول مرة أخرى.");
+                    
+                    // تنظيف الخانة والعودة للشاشة السابقة فوراً
+                    phoneInput.value = '';
+                    showLoading(false); // إخفاء التحميل
+                    showScreen('step-phone'); // إظهار شاشة الهاتف
+                    
+                } else {
+                    const userDoc = querySnapshot.docs[0];
+                    tempUserDocId = userDoc.id;
+                    tempUserData = userDoc.data();
+
+                    if(tempUserData.password) {
+                        showLoading(false);
+                        // تم التعديل هنا أيضاً في حالة إلغاء الدخول
+                        if(confirm("لديك حساب بالفعل. تسجيل الدخول؟")) {
+                            window.showLoginDirect();
+                            document.getElementById('loginPhone').value = phone;
+                        } else {
+                            // لو داس Cancel يرجع للشاشة الأولى
+                            showScreen('step-phone');
+                        }
+                    } else {
+                        document.getElementById('foundName').innerText = tempUserData.name;
+                        showScreen('step-confirm');
+                        showLoading(false);
+                    }
+                }
+            } catch(e) {
+                console.error(e);
+                alert("خطأ في الاتصال بالسيرفر");
+                showLoading(false);
+                showScreen('step-phone'); // العودة في حالة الخطأ
+            }
+        };
+        // ------------------------------------------------
+
+        window.confirmIdentity = () => {
+            document.getElementById('confirmBtns').classList.add('hidden');
+            document.getElementById('passwordSetup').classList.remove('hidden');
+        };
+
+        window.completeRegistration = async () => {
+            const pass = document.getElementById('newPassword').value;
+            if(!pass || pass.length < 4) return alert("كلمة المرور قصيرة جداً");
+
+            showLoading(true);
+            try {
+                const userRef = doc(db, "users", tempUserDocId);
+                await updateDoc(userRef, { password: pass });
+                localStorage.setItem('makhdoum_uid', tempUserDocId);
+                await loadDashboard(tempUserDocId);
+            } catch(e) {
+                console.error(e);
+                alert("فشل إنشاء الحساب");
+                showLoading(false);
+                showScreen('step-phone');
+            }
+        };
+
+        window.doLogin = async () => {
+            const phone = document.getElementById('loginPhone').value.trim();
+            const pass = document.getElementById('loginPassword').value;
+
+            if(!phone || !pass) return alert("البيانات ناقصة");
+            showLoading(true);
+
+            try {
+                const q = query(collection(db, "users"), where("phone", "==", phone));
+                const querySnapshot = await getDocs(q);
+
+                if(querySnapshot.empty) {
+                    alert("رقم غير صحيح");
+                    showLoading(false);
+                    showScreen('step-login');
+                    return;
+                }
+
+                const userDoc = querySnapshot.docs[0];
+                const userData = userDoc.data();
+
+                if(userData.password === pass) {
+                    localStorage.setItem('makhdoum_uid', userDoc.id);
+                    await loadDashboard(userDoc.id);
+                } else {
+                    alert("كلمة المرور خاطئة");
+                    showLoading(false);
+                    showScreen('step-login');
+                }
+
+            } catch(e) {
+                console.error(e);
+                alert("خطأ في الاتصال");
+                showLoading(false);
+                showScreen('step-login');
+            }
+        };
+
+        async function loadDashboard(uid) {
+            showLoading(true);
+            try {
+                const docRef = doc(db, "users", uid);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    
+                    document.getElementById('dashName').innerText = data.name;
+                    document.getElementById('dashPoints').innerText = data.points || 0;
+                    document.getElementById('dashSection').innerText = data.section || 'غير محدد';
+                    document.getElementById('dashPhone').innerText = data.phone || '-';
+                    document.getElementById('dashAddress').innerText = data.address || '-';
+
+                    const historyContainer = document.getElementById('dashHistory');
+                    historyContainer.innerHTML = '';
+                    
+                    if(data.history && data.history.length > 0) {
+                        const sortedHist = [...data.history].sort((a,b) => b.ts - a.ts);
+                        sortedHist.forEach(h => {
+                            let dateStr = new Date(h.ts).toLocaleDateString('ar-EG');
+                            let timeStr = new Date(h.ts).toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'});
+                            
+                            let typeText ="حضور";
+                            let ptsColor = "var(--success)";
+                            let borderColor = "var(--success)";
+                            
+                            if (h.type === 'gift') {
+                                typeText = "🎁 هدية خاصة";
+                                ptsColor = "var(--secondary)";
+                                borderColor = "var(--secondary)";
+                            } else if (h.type === 'deduct') {
+                                typeText = "⚠️ خصم نقاط";
+                                ptsColor = "var(--danger)";
+                                borderColor = "var(--danger)";
+                            }
+
+                            historyContainer.innerHTML += `
+                                <div class="history-item" style="border-right-color:${borderColor}">
+                                    <div>
+                                        <div style="font-weight:bold; color:#fff;">${typeText}</div>
+                                        <div style="font-size:0.75rem; color:#888;">${dateStr}</div>
+                                    </div>
+                                    <div style="text-align:left;">
+                                        <span style="color:${ptsColor}; font-weight:bold; dir='ltr'">${h.pts > 0 ? '+' : ''}${h.pts}</span>
+                                        <div style="font-size:0.7rem; color:#666;">${timeStr}</div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    } else {
+                        historyContainer.innerHTML = '<p style="text-align:center; color:#555; padding:10px;">لا يوجد سجل حضور بعد</p>';
+                    }
+
+                    hideAll();
+                    document.getElementById('dashboard').classList.remove('hidden');
+                    document.getElementById('newsTicker').classList.remove('hidden');
+
+                } else {
+                    alert("خطأ في البيانات! سجل دخول مرة أخرى.");
+                    localStorage.removeItem('makhdoum_uid');
+                    showLoading(false);
+                    showScreen('step-phone');
+                }
+            } catch(e) {
+                console.error(e);
+                alert("حدث خطأ في جلب البيانات");
+                showLoading(false);
+                showScreen('step-phone');
+            }
+        }
+
+        window.showLoginDirect = () => showScreen('step-login');
+        window.resetFlow = () => {
+            tempUserDocId = null;
+            document.getElementById('inputPhone').value = '';
+            showScreen('step-phone');
+        };
+
+        function showScreen(id) {
+            hideAll();
+            document.getElementById(id).classList.remove('hidden');
+        }
+
+        function hideAll() {
+            document.getElementById('step-phone').classList.add('hidden');
+            document.getElementById('step-confirm').classList.add('hidden');
+            document.getElementById('step-login').classList.add('hidden');
+            document.getElementById('dashboard').classList.add('hidden');
+            document.getElementById('loading').classList.add('hidden');
+            document.getElementById('newsTicker').classList.add('hidden');
+        }
+
+        function showLoading(show) {
+            if(show) {
+                hideAll();
+                document.getElementById('loading').classList.remove('hidden');
+            } else {
+                document.getElementById('loading').classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
